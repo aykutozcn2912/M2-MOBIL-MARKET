@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>M2 Mobil Market | Mobil Metin2 Ticaret Platformu</title>
+
+    <meta
+        name="description"
+        content="Mobil Metin2 sunucuları için item, yang ve karakter ilanları, canlı Yang kurları ve sunucu oylamaları."
+    >
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- =====================================================
+     HEADER
+====================================================== -->
+
+<header class="market-header">
+
+    <div class="header-main">
+
+        <a
+            class="market-brand"
+            href="/anasayfa"
+            aria-label="M2 Mobil Market Ana Sayfa"
+        >
+            <span class="m2-brand">
+                <strong>M2</strong>
+                <span>MOBİL MARKET</span>
+            </span>
+        </a>
+
+
+        <div class="market-search">
+
+            <input
+                type="search"
+                id="market-search-input"
+                placeholder="İlan, item, karakter veya sunucu ara..."
+                aria-label="M2 Mobil Market'te ara"
+            >
+
+            <button
+                type="button"
+                id="market-search-button"
+                aria-label="Ara"
+            >
+                🔍
+            </button>
+
+        </div>
+
+
+        <div class="header-actions">
+
+            <a
+                class="header-message"
+                href="/mesajlarim"
+            >
+                💬 Mesajlarım
+            </a>
+
+            <a
+                class="header-login login"
+                href="#login"
+            >
+                Giriş Yap
+            </a>
+
+            <a
+                class="header-register"
+                href="#register"
+                id="register-open"
+            >
+                Üye Ol
+            </a>
+
+            <a
+                class="header-sell"
+                href="/ilan-ver"
+            >
+                + İlan Ver
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="header-nav-wrap">
+
+        <nav
+            class="market-nav"
+            aria-label="Ana menü"
+        >
+
+            <a
+                class="active"
+                href="/anasayfa"
+            >
+                Anasayfa
+            </a>
+
+            <a href="/sunucular">
+                Mobil Metin2 Sunucuları
+            </a>
+
+            <a href="/canli-yang-kurlari">
+                Canlı Yang Kurları
+            </a>
+
+            <a href="/sunucu-oylamalari">
+                Sunucu Oylamaları
+            </a>
+
+            <a href="/sikca-sorulan-sorular">
+                Sıkça Sorulan Sorular
+            </a>
+
+            <a
+                class="nav-discord"
+                href="#"
+                id="discord-link"
+            >
+                Discord
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<main>
+
+<!-- =====================================================
+     HERO
+====================================================== -->
+
+<section class="hero hero-v2">
+
+    <div class="hero-v2-bg"></div>
+
+    <div class="hero-content hero-v2-content">
+
+        <div class="eyebrow">
+            MOBİL METİN2 PAZAR YERİ
+        </div>
+
+        <h1 class="hero-v2-title">
+            M2
+            <small>MOBİL MARKET</small>
+        </h1>
+
+        <div class="hero-v2-subtitle">
+            MOBİL METİN2 DÜNYASININ TİCARET MERKEZİ
+        </div>
+
+        <div class="hero-v2-features">
+            <span>Sunucular</span>
+            <b>◆</b>
+            <span>İlanlar</span>
+            <b>◆</b>
+            <span>Yang Kurları</span>
+            <b>◆</b>
+            <span>Oylamalar</span>
+        </div>
+
+
+        <div class="hero-v2-search">
+
+            <input
+                type="search"
+                id="hero-market-search"
+                placeholder="İlan, item, karakter veya sunucu ara..."
+                aria-label="İlan veya sunucu ara"
+            >
+
+            <button
+                type="button"
+                id="hero-market-search-button"
+                aria-label="Ara"
+            >
+                🔍
+            </button>
+
+        </div>
+
+
+        <div class="hero-buttons hero-v2-buttons">
+
+            <a
+                class="primary"
+                href="/sunucular"
+            >
+                Sunucuları Keşfet
+                <b>→</b>
+            </a>
+
+            <a
+                class="secondary"
+                href="/ilan-ver"
+            >
+                Hemen İlan Ver
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="hero-v2-benefits">
+
+        <div class="hero-benefit">
+            <strong>⚔️</strong>
+
+            <div>
+                <b>Mobil Metin2</b>
+                <small>Tek Platform</small>
+            </div>
+        </div>
+
+
+        <div class="hero-benefit">
+            <strong>📊</strong>
+
+            <div>
+                <b>Canlı Piyasa</b>
+                <small>Yang Kurları</small>
+            </div>
+        </div>
+
+
+        <div class="hero-benefit">
+            <strong>💬</strong>
+
+            <div>
+                <b>Hızlı İletişim</b>
+                <small>Oyuncudan Oyuncuya</small>
+            </div>
+        </div>
+
+
+        <div class="hero-benefit">
+            <strong>🏆</strong>
+
+            <div>
+                <b>Sunucu Oylamaları</b>
+                <small>Topluluk Sıralaması</small>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     MOBİL METİN2 SUNUCULARI
+====================================================== -->
+
+<section
+    id="sunucular"
+    class="section"
+>
+
+    <div class="section-head">
+
+        <div>
+            <span class="eyebrow">
+                SUNUCULARI KEŞFET
+            </span>
+
+            <h2>
+                Mobil Metin2 Sunucuları
+            </h2>
+        </div>
+
+        <a href="/sunucular">
+            Tüm Sunucuları Gör →
+        </a>
+
+    </div>
+
+
+    <div
+        id="game-projects-container"
+        class="projects-grid"
+    >
+        <!--
+            game_projects ve game_servers
+            Supabase üzerinden dinamik yüklenecek.
+        -->
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     CANLI YANG KURLARI
+====================================================== -->
+
+<section class="yang-rates-section">
+
+    <div class="yang-rates-header">
+
+        <div class="yang-live">
+
+            <span class="yang-live-dot"></span>
+
+            <div>
+                <strong>CANLI VERİ</strong>
+                <small>Piyasa Takibi Aktif</small>
+            </div>
+
+        </div>
+
+
+        <div class="yang-title">
+
+            <h2>
+                CANLI <span>YANG KURLARI</span>
+            </h2>
+
+            <p>
+                MOBİL METİN2 SUNUCULARI PİYASA KURLARI
+            </p>
+
+        </div>
+
+
+        <div class="yang-update">
+
+            <small>
+                Son Güncelleme
+            </small>
+
+            <strong id="yang-last-update">
+                --
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div
+        id="yang-rates-container"
+        class="yang-rates-grid"
+    >
+        <!--
+            Yang kartları Supabase'deki
+            yang_rates tablosundan gelecek.
+        -->
+    </div>
+
+
+    <div class="yang-rates-footer">
+
+        <span class="yang-info-icon">
+            i
+        </span>
+
+        <p>
+            Yang kurları güncel piyasa verilerine göre
+            bilgilendirme amacıyla sunulmaktadır.
+            Alım-satım teklifi değildir.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     SON İLANLAR
+====================================================== -->
+
+<section
+    id="ilanlar"
+    class="section"
+>
+
+    <div class="section-head">
+
+        <div>
+
+            <span class="eyebrow">
+                PAZARI KEŞFET
+            </span>
+
+            <h2>
+                Son İlanlar
+            </h2>
+
+        </div>
+
+        <a href="/ilanlar">
+            Tüm İlanları Gör →
+        </a>
+
+    </div>
+
+
+    <div class="filters">
+
+        <button
+            class="filter active"
+            data-category="all"
+            type="button"
+        >
+            Tümü
+        </button>
+
+        <button
+            class="filter"
+            data-category="item"
+            type="button"
+        >
+            İtem
+        </button>
+
+        <button
+            class="filter"
+            data-category="yang"
+            type="button"
+        >
+            Yang
+        </button>
+
+        <button
+            class="filter"
+            data-category="karakter"
+            type="button"
+        >
+            Karakter
+        </button>
+
+    </div>
+
+
+    <div
+        id="listings"
+        class="listing-grid"
+    >
+        <!-- İlanlar Supabase'den gelecek -->
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     SUNUCU OYLAMALARI
+====================================================== -->
+
+<section
+    id="oylamalar"
+    class="section server-voting-section"
+>
+
+    <div class="section-head">
+
+        <div>
+
+            <span class="eyebrow">
+                TOPLULUK
+            </span>
+
+            <h2>
+                Mobil Metin2 Sunucu Oylamaları
+            </h2>
+
+        </div>
+
+        <a href="/sunucu-oylamalari">
+            Tüm Sıralamayı Gör →
+        </a>
+
+    </div>
+
+
+    <div
+        id="server-votes-container"
+        class="votes-grid"
+    >
+        <!-- Oylama sonuçları Supabase'den gelecek -->
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     İLAN VER CTA
+====================================================== -->
+
+<section
+    id="ilan-ver-cta"
+    class="cta"
+>
+
+    <div>
+
+        <span class="eyebrow">
+            PAZARA KATIL
+        </span>
+
+        <h2>
+            Sen de ilanını yayınla.
+        </h2>
+
+        <p>
+            Oynadığın Mobil Metin2 sunucusunu seç,
+            ilanını oluştur ve oyunculara ulaş.
+        </p>
+
+    </div>
+
+
+    <a
+        class="primary"
+        href="/ilan-ver"
+    >
+        Ücretsiz İlan Ver →
+    </a>
+
+</section>
+
+
+<!-- =====================================================
+     GÜVEN / PLATFORM ÖZELLİKLERİ
+====================================================== -->
+
+<section class="market-trust-section">
+
+    <div class="market-trust-grid">
+
+        <div class="market-trust-card">
+
+            <div class="market-trust-icon">
+                ⚔️
+            </div>
+
+            <div>
+                <h3>
+                    Mobil Metin2 Odaklı
+                </h3>
+
+                <p>
+                    Farklı Mobil Metin2 projelerini ve
+                    alt sunucularını tek platformda keşfet.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="market-trust-card">
+
+            <div class="market-trust-icon">
+                📈
+            </div>
+
+            <div>
+                <h3>
+                    Canlı Piyasa Takibi
+                </h3>
+
+                <p>
+                    Sunucuların güncel Yang kurlarını
+                    ve piyasa hareketlerini takip et.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="market-trust-card">
+
+            <div class="market-trust-icon">
+                💬
+            </div>
+
+            <div>
+                <h3>
+                    Oyuncudan Oyuncuya
+                </h3>
+
+                <p>
+                    İlan sahipleriyle doğrudan iletişim
+                    kur ve ticaretini kendin yönet.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<!-- =====================================================
+     FOOTER
+====================================================== -->
+
+<footer class="market-footer">
+
+    <div class="market-footer-main">
+
+        <div class="market-footer-brand">
+
+            <a
+                href="/anasayfa"
+                class="market-footer-logo"
+            >
+                <span class="m2-brand">
+                    <strong>M2</strong>
+                    <span>MOBİL MARKET</span>
+                </span>
+            </a>
+
+            <p>
+                Mobil Metin2 oyuncuları için
+                ilan, piyasa ve sunucu platformu.
+            </p>
+
+        </div>
+
+
+        <div class="market-footer-column">
+
+            <h4>
+                Pazar
+            </h4>
+
+            <a href="/sunucular">
+                Sunucular
+            </a>
+
+            <a href="/ilanlar">
+                İlanlar
+            </a>
+
+            <a href="/canli-yang-kurlari">
+                Canlı Yang Kurları
+            </a>
+
+            <a href="/sunucu-oylamalari">
+                Sunucu Oylamaları
+            </a>
+
+        </div>
+
+
+        <div class="market-footer-column">
+
+            <h4>
+                Kurumsal
+            </h4>
+
+            <a href="/hakkimizda">
+                Hakkımızda
+            </a>
+
+            <a href="/kullanim-kosullari">
+                Kullanım Koşulları
+            </a>
+
+            <a href="/gizlilik-politikasi">
+                Gizlilik Politikası
+            </a>
+
+            <a href="/iletisim">
+                İletişim
+            </a>
+
+        </div>
+
+
+        <div class="market-footer-column">
+
+            <h4>
+                Hesabım
+            </h4>
+
+            <a href="/hesabim">
+                Hesabım
+            </a>
+
+            <a href="/ilanlarim">
+                İlanlarım
+            </a>
+
+            <a href="/mesajlarim">
+                Mesajlarım
+            </a>
+
+            <a href="/ilan-ver">
+                İlan Ver
+            </a>
+
+        </div>
+
+
+        <div class="market-footer-column">
+
+            <h4>
+                Destek
+            </h4>
+
+            <a href="/sikca-sorulan-sorular">
+                Sıkça Sorulan Sorular
+            </a>
+
+            <a
+                href="#"
+                id="footer-discord-link"
+            >
+                Discord
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="market-footer-bottom">
+
+        <p>
+            © 2026 M2 Mobil Market. Tüm hakları saklıdır.
+            · M2 Mobil Market bağımsız bir oyuncu ilan platformudur.
+        </p>
+
+    </div>
+
+</footer>
+
+
+<!-- =====================================================
+     ÜYE OL MODAL
+====================================================== -->
+
+<div
+    id="register"
+    class="modal"
+>
+
+    <div class="modal-box">
+
+        <a
+            class="close"
+            href="#"
+            aria-label="Kapat"
+        >
+            ×
+        </a>
+
+        <span class="eyebrow">
+            M2 MOBİL MARKET
+        </span>
+
+        <h2>
+            Üye Ol
+        </h2>
+
+        <p>
+            Hesabını oluştur ve M2 Mobil Market'e katıl.
+        </p>
+
+
+        <label for="register-username">
+            Kullanıcı Adı
+        </label>
+
+        <input
+            id="register-username"
+            type="text"
+            placeholder="Kullanıcı adınız"
+            maxlength="24"
+            autocomplete="username"
+        >
+
+        <small id="register-username-message"></small>
+
+
+        <label for="register-display-name">
+            Görünen Ad
+        </label>
+
+        <input
+            id="register-display-name"
+            type="text"
+            placeholder="Görünen adınız"
+            maxlength="40"
+            autocomplete="name"
+        >
+
+
+        <label for="register-email">
+            E-posta Adresi
+        </label>
+
+        <input
+            id="register-email"
+            type="email"
+            placeholder="ornek@mail.com"
+            autocomplete="email"
+        >
+
+
+        <label for="register-password">
+            Şifre
+        </label>
+
+        <input
+            id="register-password"
+            type="password"
+            placeholder="En az 8 karakter"
+            autocomplete="new-password"
+        >
+
+
+        <label for="register-password-confirm">
+            Şifre Tekrar
+        </label>
+
+        <input
+            id="register-password-confirm"
+            type="password"
+            placeholder="Şifrenizi tekrar girin"
+            autocomplete="new-password"
+        >
+
+
+        <label class="register-consent">
+
+            <input
+                id="register-terms"
+                type="checkbox"
+            >
+
+            Kullanım koşullarını ve gizlilik politikasını
+            kabul ediyorum.
+
+        </label>
+
+
+        <button
+            id="register-button"
+            class="primary full"
+            type="button"
+        >
+            Hesap Oluştur
+        </button>
+
+        <small id="register-message"></small>
+
+
+        <p style="margin-top:14px;">
+
+            Zaten hesabın var mı?
+
+            <a href="#login">
+                Giriş Yap
+            </a>
+
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     GİRİŞ MODAL
+====================================================== -->
+
+<div
+    id="login"
+    class="modal"
+>
+
+    <div class="modal-box">
+
+        <a
+            class="close"
+            href="#"
+            aria-label="Kapat"
+        >
+            ×
+        </a>
+
+        <span class="eyebrow">
+            M2 MOBİL MARKET
+        </span>
+
+        <h2>
+            Giriş Yap
+        </h2>
+
+        <p>
+            Hesabınla giriş yaparak ilanlarını
+            ve mesajlarını yönetebilirsin.
+        </p>
+
+
+        <label for="login-email">
+            E-posta
+        </label>
+
+        <input
+            id="login-email"
+            type="email"
+            placeholder="E-posta adresiniz"
+            autocomplete="email"
+        >
+
+
+        <label for="login-password">
+            Şifre
+        </label>
+
+        <input
+            id="login-password"
+            type="password"
+            placeholder="Şifreniz"
+            autocomplete="current-password"
+        >
+
+
+        <button
+            id="login-button"
+            class="primary full"
+            type="button"
+        >
+            Giriş Yap
+        </button>
+
+        <small id="login-message"></small>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+====================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
