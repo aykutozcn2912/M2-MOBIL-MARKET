@@ -902,6 +902,210 @@ function getListingUrl(listing) {
 
 }
 
+// ==========================================================
+// ANA SAYFA - MOBİL METİN2 PROJELERİ
+// ==========================================================
+
+function renderHomeGameProjects() {
+
+    const container =
+        document.getElementById(
+            "game-projects-container"
+        );
+
+    if (!container) {
+        return;
+    }
+
+
+    const projects =
+        window.M2_STATE.gameProjects;
+
+    const servers =
+        window.M2_STATE.gameServers;
+
+
+    if (!projects.length) {
+
+        container.innerHTML = `
+            <div class="project-card project-card-empty">
+                <div class="project-card-content">
+                    <h3>Sunucu bulunamadı</h3>
+                    <p>
+                        Aktif Mobil Metin2 projesi
+                        henüz bulunmuyor.
+                    </p>
+                </div>
+            </div>
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML =
+        projects
+            .map(project => {
+
+                const projectServers =
+                    servers.filter(
+                        server =>
+                            Number(
+                                server.game_project_id
+                            ) ===
+                            Number(
+                                project.id
+                            )
+                    );
+
+
+                const safeName =
+                    escapeHtml(
+                        project.name
+                    );
+
+
+                const safeDescription =
+                    escapeHtml(
+                        project.description ||
+                        "Mobil Metin2 sunucusu"
+                    );
+
+
+                const projectUrl =
+                    getGameUrl(
+                        project
+                    );
+
+
+                const serverHtml =
+                    projectServers.length
+                        ? projectServers
+                            .map(server => {
+
+                                const safeServerName =
+                                    escapeHtml(
+                                        server.name
+                                    );
+
+                                const serverUrl =
+                                    getServerUrl(
+                                        project,
+                                        server
+                                    );
+
+                                return `
+                                    <a
+                                        class="project-server"
+                                        href="${serverUrl}"
+                                    >
+                                        ${safeServerName}
+                                    </a>
+                                `;
+
+                            })
+                            .join("")
+                        : `
+                            <span class="project-server project-server-empty">
+                                Aktif sunucu bulunmuyor
+                            </span>
+                        `;
+
+
+                const logoHtml =
+                    project.logo_url
+                        ? `
+                            <img
+                                src="${escapeHtml(
+                                    project.logo_url
+                                )}"
+                                alt="${safeName}"
+                                loading="lazy"
+                            >
+                        `
+                        : `
+                            <span class="project-logo-letter">
+                                ${escapeHtml(
+                                    String(
+                                        project.name ||
+                                        "M"
+                                    )
+                                        .trim()
+                                        .charAt(0)
+                                        .toUpperCase()
+                                )}
+                            </span>
+                        `;
+
+
+                return `
+                    <article
+                        class="project-card"
+                        data-project-id="${Number(
+                            project.id
+                        )}"
+                    >
+
+                        <a
+                            class="project-card-main"
+                            href="${projectUrl}"
+                        >
+
+                            <div class="project-logo">
+                                ${logoHtml}
+                            </div>
+
+                            <div class="project-card-content">
+
+                                <div class="project-card-top">
+
+                                    <h3>
+                                        ${safeName}
+                                    </h3>
+
+                                    ${
+                                        project.is_featured
+                                            ? `
+                                                <span class="project-featured">
+                                                    ÖNE ÇIKAN
+                                                </span>
+                                            `
+                                            : ""
+                                    }
+
+                                </div>
+
+                                <p>
+                                    ${safeDescription}
+                                </p>
+
+                                <div class="project-server-count">
+                                    ${projectServers.length}
+                                    Aktif Sunucu
+                                </div>
+
+                            </div>
+
+                            <span class="project-arrow">
+                                →
+                            </span>
+
+                        </a>
+
+
+                        <div class="project-servers">
+
+                            ${serverHtml}
+
+                        </div>
+
+                    </article>
+                `;
+
+            })
+            .join("");
+
+}
 
 // ==========================================================
 // UYGULAMA BAŞLATMA
@@ -932,6 +1136,8 @@ async function initializeM2MobilMarket() {
         window.M2_STATE.initialized =
             true;
 
+renderHomeGameProjects();
+        
         console.log(
             "M2 Mobil Market hazır.",
             {
