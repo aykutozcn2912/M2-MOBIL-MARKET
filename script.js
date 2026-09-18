@@ -847,7 +847,7 @@ function getGameUrl(game) {
     }
 
     return (
-        `/oyun/${encodeURIComponent(
+        `/sunucular/${encodeURIComponent(
             game.slug
         )}`
     );
@@ -870,7 +870,7 @@ function getServerUrl(
     }
 
     return (
-        `/oyun/${encodeURIComponent(
+        `/sunucular/${encodeURIComponent(
             game.slug
         )}/${encodeURIComponent(
             server.slug
