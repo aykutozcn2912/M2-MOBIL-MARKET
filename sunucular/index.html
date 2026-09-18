@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Mobil Metin2 Sunucuları | M2 Mobil Market
+    </title>
+
+    <meta
+        name="description"
+        content="M2 Mobil Market üzerinde yer alan Mobil Metin2 projelerini ve aktif sunucuları keşfedin."
+    >
+
+    <!--
+        Bu sayfa /sunucular/ klasöründe olduğu için
+        ana dizindeki CSS dosyasına /style.css ile ulaşıyoruz.
+    -->
+    <link
+        rel="stylesheet"
+        href="/style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <header class="topbar">
+
+        <div class="topbar-inner">
+
+            <a
+                class="brand"
+                href="/anasayfa"
+                aria-label="M2 Mobil Market Anasayfa"
+            >
+                <strong>M2</strong>
+                <span>MOBİL MARKET</span>
+            </a>
+
+
+            <div class="header-search">
+
+                <input
+                    type="search"
+                    placeholder="İlan, item, karakter veya sunucu ara..."
+                    aria-label="Site içerisinde ara"
+                >
+
+                <button
+                    type="button"
+                    aria-label="Ara"
+                >
+                    🔍
+                </button>
+
+            </div>
+
+
+            <div class="header-actions">
+
+                <a href="/mesajlarim">
+                    💬 Mesajlarım
+                </a>
+
+                <a
+                    class="login"
+                    href="/giris-yap"
+                >
+                    Giriş Yap
+                </a>
+
+                <a
+                    class="header-register"
+                    href="/kayit-ol"
+                >
+                    Üye Ol
+                </a>
+
+                <a
+                    class="primary"
+                    href="/ilan-ver"
+                >
+                    + İlan Ver
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <nav class="main-nav">
+
+            <div class="nav-inner">
+
+                <a href="/anasayfa">
+                    Anasayfa
+                </a>
+
+                <a
+                    class="active"
+                    href="/sunucular"
+                >
+                    Mobil Metin2 Sunucuları
+                </a>
+
+                <a href="/canli-yang-kurlari">
+                    Canlı Yang Kurları
+                </a>
+
+                <a href="/sunucu-oylamalari">
+                    Sunucu Oylamaları
+                </a>
+
+                <a href="/sss">
+                    Sıkça Sorulan Sorular
+                </a>
+
+                <a
+                    href="#"
+                    class="nav-discord"
+                >
+                    Discord
+                </a>
+
+            </div>
+
+        </nav>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         SAYFA BAŞLIĞI
+    ====================================================== -->
+
+    <main>
+
+        <section class="section servers-page">
+
+            <div class="section-head">
+
+                <div>
+
+                    <span class="eyebrow">
+                        SUNUCULARI KEŞFET
+                    </span>
+
+                    <h1>
+                        Mobil Metin2 Sunucuları
+                    </h1>
+
+                    <p>
+                        M2 Mobil Market'te yer alan Mobil Metin2
+                        projelerini ve aktif sunucularını keşfet.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!--
+                game_projects ve game_servers
+                Supabase üzerinden script.js tarafından
+                dinamik olarak yüklenecek.
+            -->
+
+            <div
+                id="game-projects-container"
+                class="projects-grid"
+            >
+
+                <div class="project-card">
+
+                    <div class="project-card-content">
+
+                        <h3>
+                            Sunucular yükleniyor...
+                        </h3>
+
+                        <p>
+                            Aktif Mobil Metin2 projeleri
+                            getiriliyor.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer class="site-footer">
+
+        <div class="footer-inner">
+
+            <div class="footer-brand">
+
+                <a
+                    class="brand"
+                    href="/anasayfa"
+                >
+                    <strong>M2</strong>
+                    <span>MOBİL MARKET</span>
+                </a>
+
+                <p>
+                    Mobil Metin2 dünyasının
+                    oyuncudan oyuncuya ticaret platformu.
+                </p>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <strong>Pazar</strong>
+
+                <a href="/sunucular">
+                    Sunucular
+                </a>
+
+                <a href="/ilanlar">
+                    İlanlar
+                </a>
+
+                <a href="/canli-yang-kurlari">
+                    Yang Kurları
+                </a>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <strong>Hesabım</strong>
+
+                <a href="/giris-yap">
+                    Giriş Yap
+                </a>
+
+                <a href="/kayit-ol">
+                    Kayıt Ol
+                </a>
+
+                <a href="/ilan-ver">
+                    İlan Ver
+                </a>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <strong>Destek</strong>
+
+                <a href="/sss">
+                    Sıkça Sorulan Sorular
+                </a>
+
+                <a href="#">
+                    Discord
+                </a>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
+    <script src="/script.js"></script>
+
+</body>
+
+</html>
