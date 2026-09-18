@@ -38,110 +38,121 @@
          HEADER
     ====================================================== -->
 
-    <header class="topbar">
+<header class="market-header">
 
-        <div class="topbar-inner">
+    <div class="header-main">
 
-            <a
-                class="brand"
-                href="/anasayfa"
-                aria-label="M2 Mobil Market Anasayfa"
-            >
+        <a
+            class="market-brand"
+            href="/anasayfa"
+            aria-label="M2 Mobil Market Ana Sayfa"
+        >
+            <span class="m2-brand">
                 <strong>M2</strong>
                 <span>MOBİL MARKET</span>
-            </a>
+            </span>
+        </a>
 
 
-            <div class="header-search">
+        <div class="market-search">
 
-                <input
-                    type="search"
-                    placeholder="İlan, item, karakter veya sunucu ara..."
-                    aria-label="Site içerisinde ara"
-                >
+            <input
+                type="search"
+                id="market-search-input"
+                placeholder="İlan, item, karakter veya sunucu ara..."
+                aria-label="M2 Mobil Market'te ara"
+            >
 
-                <button
-                    type="button"
-                    aria-label="Ara"
-                >
-                    🔍
-                </button>
-
-            </div>
-
-
-            <div class="header-actions">
-
-                <a href="/mesajlarim">
-                    💬 Mesajlarım
-                </a>
-
-                <a
-                    class="login"
-                    href="/giris-yap"
-                >
-                    Giriş Yap
-                </a>
-
-                <a
-                    class="header-register"
-                    href="/kayit-ol"
-                >
-                    Üye Ol
-                </a>
-
-                <a
-                    class="primary"
-                    href="/ilan-ver"
-                >
-                    + İlan Ver
-                </a>
-
-            </div>
+            <button
+                type="button"
+                id="market-search-button"
+                aria-label="Ara"
+            >
+                🔍
+            </button>
 
         </div>
 
 
-        <nav class="main-nav">
+        <div class="header-actions">
 
-            <div class="nav-inner">
+            <a
+                class="header-message"
+                href="/mesajlarim"
+            >
+                💬 Mesajlarım
+            </a>
 
-                <a href="/anasayfa">
-                    Anasayfa
-                </a>
+            <a
+                class="header-login login"
+                href="#login"
+            >
+                Giriş Yap
+            </a>
 
-                <a
-                    class="active"
-                    href="/sunucular"
-                >
-                    Mobil Metin2 Sunucuları
-                </a>
+            <a
+                class="header-register"
+                href="#register"
+                id="register-open"
+            >
+                Üye Ol
+            </a>
 
-                <a href="/canli-yang-kurlari">
-                    Canlı Yang Kurları
-                </a>
+            <a
+                class="header-sell"
+                href="/ilan-ver"
+            >
+                + İlan Ver
+            </a>
 
-                <a href="/sunucu-oylamalari">
-                    Sunucu Oylamaları
-                </a>
+        </div>
 
-                <a href="/sss">
-                    Sıkça Sorulan Sorular
-                </a>
+    </div>
 
-                <a
-                    href="#"
-                    class="nav-discord"
-                >
-                    Discord
-                </a>
 
-            </div>
+    <div class="header-nav-wrap">
+
+        <nav
+            class="market-nav"
+            aria-label="Ana menü"
+        >
+
+            <a
+                class="active"
+                href="/anasayfa"
+            >
+                Anasayfa
+            </a>
+
+            <a href="/sunucular">
+                Mobil Metin2 Sunucuları
+            </a>
+
+            <a href="/canli-yang-kurlari">
+                Canlı Yang Kurları
+            </a>
+
+            <a href="/sunucu-oylamalari">
+                Sunucu Oylamaları
+            </a>
+
+            <a href="/sikca-sorulan-sorular">
+                Sıkça Sorulan Sorular
+            </a>
+
+            <a
+                class="nav-discord"
+                href="#"
+                id="discord-link"
+            >
+                Discord
+            </a>
 
         </nav>
 
-    </header>
+    </div>
 
+</header>
 
 
     <!-- =====================================================
