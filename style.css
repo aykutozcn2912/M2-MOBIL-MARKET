@@ -2150,3 +2150,18 @@ a {
     }
 
 }
+
+/* ==========================================================
+   TEKİL SUNUCU SAYFASI - GRID GENİŞLİK DÜZELTMESİ
+   Listeleme sayfasındaki 4 sütunlu yapıyı bozmaz.
+   ========================================================== */
+
+#servers-page-container:has(.single-server-market) {
+    display: block;
+    width: 100%;
+}
+
+#servers-page-container > .single-server-market {
+    width: 100%;
+    max-width: 100%;
+}
