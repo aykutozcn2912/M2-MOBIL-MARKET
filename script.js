@@ -1450,7 +1450,12 @@ if (requestedServerRoute) {
 }
         
 renderHomeGameProjects();
-        renderServersPage();
+
+if (requestedServerRoute && window.M2_STATE.requestedServer) {
+    // Tekil sunucu sayfası birazdan burada çalışacak.
+} else {
+    renderServersPage();
+}
         
         console.log(
             "M2 Mobil Market hazır.",
