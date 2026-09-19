@@ -1123,16 +1123,13 @@ function renderServersPage() {
     const servers =
         window.M2_STATE.gameServers || [];
 
-    const activeServers =
-        servers
-            .filter(server =>
-                server.status === "active"
-            )
-            .sort(
-                (a, b) =>
-                    Number(a.sort_order || 999) -
-                    Number(b.sort_order || 999)
-            );
+const activeServers =
+    [...servers]
+        .sort(
+            (a, b) =>
+                Number(a.sort_order || 999) -
+                Number(b.sort_order || 999)
+        );
 
     if (!activeServers.length) {
 
