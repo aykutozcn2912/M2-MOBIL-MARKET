@@ -854,25 +854,36 @@ function getGameUrl(game) {
 
 }
 
-
 function getServerUrl(
     game,
     server
 ) {
 
-    if (
-        !game?.slug ||
-        !server?.slug
-    ) {
-
-        return "/anasayfa";
-
+    if (!server?.slug) {
+        return "/sunucular";
     }
 
+    /*
+        Royale2 sunucuları:
+        /sunucular/royale2/ephesus
+        /sunucular/royale2/teos
+    */
+    if (game?.slug === "royale2") {
+        return (
+            `/sunucular/royale2/${encodeURIComponent(
+                server.slug
+            )}`
+        );
+    }
+
+    /*
+        Diğer Mobil Metin2 sunucuları:
+        /sunucular/harbi2
+        /sunucular/lova2
+        /sunucular/triarch-online
+    */
     return (
         `/sunucular/${encodeURIComponent(
-            game.slug
-        )}/${encodeURIComponent(
             server.slug
         )}`
     );
