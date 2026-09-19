@@ -925,7 +925,18 @@ function getRequestedServerRoute() {
         "m2_requested_server_path"
     );
 
-    return savedPath;
+    if (
+    window.location.pathname === "/sunucular/" &&
+    new URLSearchParams(window.location.search).get("server-route") === "1"
+) {
+    window.history.replaceState(
+        {},
+        "",
+        savedPath
+    );
+}
+
+return savedPath;
 }
 
 function getListingUrl(listing) {
