@@ -943,6 +943,110 @@ function getListingUrl(listing) {
 
 }
 
+// =====================================================
+// DİNAMİK SUNUCU ROTASINDAN SUNUCUYU BUL
+// =====================================================
+
+function findServerFromRoute(routePath) {
+
+    if (!routePath) {
+        return null;
+    }
+
+    const parts = routePath
+        .split("/")
+        .filter(Boolean)
+        .map(part => decodeURIComponent(part));
+
+    if (parts[0] !== "sunucular") {
+        return null;
+    }
+
+    const projects =
+        window.M2_STATE.gameProjects || [];
+
+    const servers =
+        window.M2_STATE.gameServers || [];
+
+    /*
+        Royale2 özel yapısı:
+
+        /sunucular/royale2/ephesus
+        /sunucular/royale2/teos
+        /sunucular/royale2/pergamon
+        /sunucular/royale2/akademi-teos
+    */
+
+    if (
+        parts.length === 3 &&
+        parts[1] === "royale2"
+    ) {
+
+        const royale2 =
+            projects.find(
+                project =>
+                    project.slug === "royale2"
+            );
+
+        if (!royale2) {
+            return null;
+        }
+
+        const server =
+            servers.find(
+                item =>
+                    Number(item.game_project_id) ===
+                        Number(royale2.id) &&
+                    item.slug === parts[2]
+            );
+
+        if (!server) {
+            return null;
+        }
+
+        return {
+            project: royale2,
+            server
+        };
+    }
+
+    /*
+        Diğer tüm sunucular:
+
+        /sunucular/harbi2
+        /sunucular/lova2
+        /sunucular/triarch-online
+        vb.
+    */
+
+    if (parts.length === 2) {
+
+        const server =
+            servers.find(
+                item =>
+                    item.slug === parts[1]
+            );
+
+        if (!server) {
+            return null;
+        }
+
+        const project =
+            projects.find(
+                item =>
+                    Number(item.id) ===
+                    Number(server.game_project_id)
+            ) || null;
+
+        return {
+            project,
+            server
+        };
+    }
+
+    return null;
+}
+
 // ==========================================================
 // ANA SAYFA - MOBİL METİN2 PROJELERİ
 // ==========================================================
@@ -1203,8 +1307,15 @@ const activeServers =
                         server.slug || ""
                     );
 
-                const serverUrl =
-                    `/sunucular/${safeSlug}/`;
+const game =
+    window.M2_STATE.gameProjects.find(
+        project =>
+            Number(project.id) ===
+            Number(server.game_project_id)
+    );
+
+const serverUrl =
+    getServerUrl(game, server);
 
                 const logoLetter =
                     escapeHtml(
@@ -1303,6 +1414,23 @@ async function initializeM2MobilMarket() {
         window.M2_STATE.initialized =
             true;
 
+const requestedServerRoute =
+    getRequestedServerRoute();
+
+if (requestedServerRoute) {
+
+    const requestedServer =
+        findServerFromRoute(
+            requestedServerRoute
+        );
+
+    window.M2_STATE.requestedServer =
+        requestedServer;
+
+    window.M2_STATE.requestedServerRoute =
+        requestedServerRoute;
+}
+        
 renderHomeGameProjects();
         renderServersPage();
         
