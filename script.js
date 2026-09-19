@@ -1266,6 +1266,7 @@ async function initializeM2MobilMarket() {
             true;
 
 renderHomeGameProjects();
+        renderServersPage();
         
         console.log(
             "M2 Mobil Market hazır.",
