@@ -890,6 +890,36 @@ function getServerUrl(
 
 }
 
+// =====================================================
+// DİNAMİK SUNUCU ROTASINI OKU
+// =====================================================
+
+function getRequestedServerRoute() {
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    if (params.get("server-route") !== "1") {
+        return null;
+    }
+
+    const savedPath =
+        sessionStorage.getItem(
+            "m2_requested_server_path"
+        );
+
+    if (!savedPath) {
+        return null;
+    }
+
+    sessionStorage.removeItem(
+        "m2_requested_server_path"
+    );
+
+    return savedPath;
+}
 
 function getListingUrl(listing) {
 
