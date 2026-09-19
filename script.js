@@ -1107,6 +1107,135 @@ function renderHomeGameProjects() {
 
 }
 
+// ========================================================
+// SUNUCULAR SAYFASI - BAĞIMSIZ PAZARLAR
+// ========================================================
+
+function renderServersPage() {
+
+    const container =
+        document.getElementById("servers-page-container");
+
+    if (!container) {
+        return;
+    }
+
+    const servers =
+        window.M2_STATE.gameServers || [];
+
+    const activeServers =
+        servers
+            .filter(server =>
+                server.status === "active"
+            )
+            .sort(
+                (a, b) =>
+                    Number(a.sort_order || 999) -
+                    Number(b.sort_order || 999)
+            );
+
+    if (!activeServers.length) {
+
+        container.innerHTML = `
+            <div class="project-card project-card-empty">
+                <div class="project-card-content">
+                    <h3>Sunucu bulunamadı</h3>
+                    <p>
+                        Aktif Mobil Metin2 sunucusu
+                        henüz bulunmuyor.
+                    </p>
+                </div>
+            </div>
+        `;
+
+        return;
+    }
+
+    container.innerHTML =
+        activeServers
+            .map(server => {
+
+                const safeName =
+                    escapeHtml(
+                        server.name || "Mobil Metin2"
+                    );
+
+                const safeSlug =
+                    encodeURIComponent(
+                        server.slug || ""
+                    );
+
+                const serverUrl =
+                    `/sunucular/${safeSlug}/`;
+
+                const logoLetter =
+                    escapeHtml(
+                        String(server.name || "M")
+                            .trim()
+                            .charAt(0)
+                            .toUpperCase()
+                    );
+
+                return `
+                    <article
+                        class="project-card server-market-card"
+                        data-server-id="${Number(server.id)}"
+                    >
+
+                        <a
+                            class="project-card-main"
+                            href="${serverUrl}"
+                        >
+
+                            <div class="project-logo">
+                                <span class="project-logo-letter">
+                                    ${logoLetter}
+                                </span>
+                            </div>
+
+                            <div class="project-card-content">
+
+                                <div class="project-card-top">
+
+                                    <h3>
+                                        ${safeName}
+                                    </h3>
+
+                                    ${
+                                        server.is_featured
+                                            ? `
+                                                <span class="project-featured">
+                                                    ÖNE ÇIKAN
+                                                </span>
+                                            `
+                                            : ""
+                                    }
+
+                                </div>
+
+                                <p>
+                                    ${safeName} oyuncu pazarı
+                                </p>
+
+                                <div class="project-server-count">
+                                    İlanları Görüntüle
+                                </div>
+
+                            </div>
+
+                            <span class="project-arrow">
+                                ›
+                            </span>
+
+                        </a>
+
+                    </article>
+                `;
+
+            })
+            .join("");
+}
+
 // ==========================================================
 // UYGULAMA BAŞLATMA
 // ==========================================================
