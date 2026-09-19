@@ -1862,3 +1862,291 @@ a {
     }
 
 }
+
+/* ==========================================================
+   TEKİL SUNUCU PAZAR SAYFASI
+   ========================================================== */
+
+.single-server-market {
+    width: 100%;
+    margin: 0 auto;
+    padding: 10px 0 45px;
+}
+
+/* SUNUCU ÜST ALANI */
+
+.single-server-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    width: 100%;
+    min-height: 150px;
+    padding: 28px 30px;
+    margin-bottom: 24px;
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(184, 120, 22, 0.14),
+            rgba(15, 12, 7, 0.96) 45%,
+            rgba(8, 8, 8, 0.98)
+        );
+
+    border: 1px solid rgba(190, 126, 27, 0.35);
+    border-radius: 8px;
+}
+
+.single-server-header::after {
+    content: "";
+    position: absolute;
+    top: -80px;
+    right: -50px;
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    background: rgba(190, 126, 27, 0.06);
+    pointer-events: none;
+}
+
+.single-server-header .project-logo {
+    position: relative;
+    z-index: 1;
+    flex: 0 0 76px;
+    width: 76px;
+    height: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(202, 137, 32, 0.55);
+    background: rgba(0, 0, 0, 0.42);
+}
+
+.single-server-header .project-logo-letter {
+    font-size: 28px;
+    font-weight: 800;
+    color: #d89a32;
+}
+
+.single-server-title {
+    position: relative;
+    z-index: 1;
+    min-width: 0;
+}
+
+.single-server-project {
+    display: inline-block;
+    margin-bottom: 7px;
+
+    color: #c68a2b;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.3px;
+    text-transform: uppercase;
+}
+
+.single-server-title h1 {
+    margin: 0 0 8px;
+    color: #ffffff;
+    font-size: clamp(25px, 3vw, 36px);
+    line-height: 1.1;
+    font-weight: 800;
+}
+
+.single-server-title p {
+    max-width: 650px;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.64);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+
+/* KATEGORİ FİLTRELERİ */
+
+.single-server-categories {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 24px;
+    padding: 12px;
+
+    border: 1px solid rgba(190, 126, 27, 0.20);
+    border-radius: 7px;
+    background: rgba(15, 13, 10, 0.92);
+}
+
+.single-server-category {
+    appearance: none;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 5px;
+    outline: none;
+
+    padding: 11px 17px;
+
+    background: rgba(255, 255, 255, 0.025);
+    color: rgba(255, 255, 255, 0.72);
+
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.single-server-category:hover {
+    color: #ffffff;
+    border-color: rgba(198, 138, 43, 0.45);
+    background: rgba(198, 138, 43, 0.08);
+}
+
+.single-server-category.active {
+    color: #111111;
+    border-color: #c68a2b;
+    background: #c68a2b;
+}
+
+
+/* İLAN ALANI */
+
+.single-server-listings {
+    width: 100%;
+    min-height: 280px;
+    padding: 26px 28px;
+
+    border: 1px solid rgba(190, 126, 27, 0.20);
+    border-radius: 8px;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(18, 15, 10, 0.92),
+            rgba(8, 8, 8, 0.96)
+        );
+}
+
+.single-server-listings-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+
+    padding-bottom: 18px;
+    margin-bottom: 22px;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.single-server-listings-header h2 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 21px;
+    font-weight: 800;
+}
+
+.single-server-listings-header p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.46);
+    font-size: 12px;
+}
+
+.single-server-listings-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    width: 100%;
+}
+
+
+/* ==========================================================
+   TEKİL SUNUCU - RESPONSIVE
+   ========================================================== */
+
+@media (max-width: 1100px) {
+
+    .single-server-listings-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+}
+
+@media (max-width: 800px) {
+
+    .single-server-header {
+        padding: 22px;
+    }
+
+    .single-server-categories {
+        flex-wrap: wrap;
+    }
+
+    .single-server-category {
+        flex: 1 1 calc(50% - 10px);
+    }
+
+    .single-server-listings-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .single-server-listings-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 7px;
+    }
+
+}
+
+@media (max-width: 520px) {
+
+    .single-server-market {
+        padding-bottom: 28px;
+    }
+
+    .single-server-header {
+        align-items: flex-start;
+        padding: 20px 17px;
+        gap: 15px;
+    }
+
+    .single-server-header .project-logo {
+        flex-basis: 58px;
+        width: 58px;
+        height: 58px;
+    }
+
+    .single-server-header .project-logo-letter {
+        font-size: 21px;
+    }
+
+    .single-server-title h1 {
+        font-size: 23px;
+    }
+
+    .single-server-categories {
+        gap: 7px;
+        padding: 8px;
+    }
+
+    .single-server-category {
+        padding: 10px 8px;
+        font-size: 11px;
+    }
+
+    .single-server-listings {
+        padding: 20px 16px;
+    }
+
+    .single-server-listings-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
