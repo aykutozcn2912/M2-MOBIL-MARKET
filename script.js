@@ -1373,7 +1373,6 @@ const serverUrl =
 // ======================================================
 
 function renderSingleServerPage() {
-
     const container =
         document.getElementById("servers-page-container");
 
@@ -1426,9 +1425,15 @@ function renderSingleServerPage() {
 
                 <div class="single-server-title">
 
-                    <span class="single-server-project">
-                        ${safeGameName}
-                    </span>
+                    ${
+                        safeGameName
+                            ? `
+                                <span class="single-server-project">
+                                    ${safeGameName}
+                                </span>
+                              `
+                            : ""
+                    }
 
                     <h1>
                         ${safeServerName}
@@ -1436,7 +1441,7 @@ function renderSingleServerPage() {
 
                     <p>
                         ${safeServerName} sunucusundaki
-                        aktif ilanları keşfet.
+                        aktif oyuncu pazarını keşfet.
                     </p>
 
                 </div>
@@ -1444,6 +1449,14 @@ function renderSingleServerPage() {
             </div>
 
             <div class="single-server-categories">
+
+                <button
+                    type="button"
+                    class="single-server-category active"
+                    data-category="all"
+                >
+                    Tüm İlanlar
+                </button>
 
                 <button
                     type="button"
@@ -1473,15 +1486,23 @@ function renderSingleServerPage() {
 
             <div class="single-server-listings">
 
-                <div class="single-server-empty">
-                    <h3>
+                <div class="single-server-listings-header">
+
+                    <h2>
                         ${safeServerName} Pazarı
-                    </h3>
+                    </h2>
 
                     <p>
-                        Bu sunucuya ait ilanlar burada
+                        Bu sunucuya ait aktif ilanlar burada
                         görüntülenecek.
                     </p>
+
+                </div>
+
+                <div
+                    id="single-server-listings-container"
+                    class="single-server-listings-grid"
+                >
                 </div>
 
             </div>
