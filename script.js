@@ -841,64 +841,64 @@ window.M2_ROUTES =
 function getGameUrl(game) {
 
     if (!game?.slug) {
-
-        return "/anasayfa";
-
+        return "/sunucular/";
     }
 
-    return (
-        `/sunucular/${encodeURIComponent(
-            game.slug
-        )}`
-    );
+    const firstServer =
+        (window.M2_STATE.gameServers || [])
+            .filter(server =>
+                Number(server.game_project_id) ===
+                Number(game.id)
+            )
+            .sort((a, b) =>
+                Number(a.sort_order || 999) -
+                Number(b.sort_order || 999)
+            )[0];
 
+    if (firstServer?.slug) {
+        return getServerUrl(game, firstServer);
+    }
+
+    return "/sunucular/";
 }
+
 
 function getServerUrl(game, server) {
+
     if (!server?.slug) {
-        return "/sunucular";
+        return "/sunucular/";
     }
 
-    const rawServerSlug = String(server.slug)
-        .trim()
-        .toLowerCase();
+    /*
+     * TEK VE KESİN SUNUCU URL STANDARDI:
+     *
+     * /sunucular/royale2-ephesus
+     * /sunucular/royale2-teos
+     * /sunucular/royale2-pergamon
+     * /sunucular/royale2-akademi-teos
+     * /sunucular/misali2-feda
+     * /sunucular/hardmt2-efes
+     *
+     * Supabase game_servers.slug alanı
+     * URL'nin tek kaynağıdır.
+     */
 
-    if (!game?.slug) {
-        return `/sunucular/${encodeURIComponent(rawServerSlug)}`;
+    const serverSlug =
+        String(server.slug)
+            .trim()
+            .toLowerCase();
+
+    if (!serverSlug) {
+        return "/sunucular/";
     }
 
-    const projectSlug = String(game.slug)
-        .trim()
-        .toLowerCase();
-
-    const projectServers =
-        (window.M2_STATE.gameServers || []).filter(
-            item =>
-                Number(item.game_project_id) ===
-                Number(game.id)
-        );
-
-    // Aynı proje altında birden fazla sunucu varsa:
-    // royale2-ephesus -> /sunucular/royale2/ephesus
-    if (projectServers.length > 1) {
-        const prefix = `${projectSlug}-`;
-
-        const cleanServerSlug =
-            rawServerSlug.startsWith(prefix)
-                ? rawServerSlug.slice(prefix.length)
-                : rawServerSlug;
-
-        return `/sunucular/${encodeURIComponent(projectSlug)}/${encodeURIComponent(cleanServerSlug)}`;
-    }
-
-    // Tek sunuculu projelerde:
-    // misali2-feda -> /sunucular/misali2-feda
-    return `/sunucular/${encodeURIComponent(rawServerSlug)}`;
+    return `/sunucular/${encodeURIComponent(serverSlug)}`;
 }
 
-// =====================================================
+
+// ==========================================================
 // DİNAMİK SUNUCU ROTASINI OKU
-// =====================================================
+// ==========================================================
 
 function getRequestedServerRoute() {
 
@@ -907,7 +907,9 @@ function getRequestedServerRoute() {
             window.location.search
         );
 
-    if (params.get("server-route") !== "1") {
+    if (
+        params.get("server-route") !== "1"
+    ) {
         return null;
     }
 
@@ -925,25 +927,26 @@ function getRequestedServerRoute() {
     );
 
     if (
-    window.location.pathname === "/sunucular/" &&
-    new URLSearchParams(window.location.search).get("server-route") === "1"
-) {
-    window.history.replaceState(
-        {},
-        "",
-        savedPath
-    );
+        window.location.pathname === "/sunucular/" &&
+        params.get("server-route") === "1"
+    ) {
+
+        window.history.replaceState(
+            {},
+            "",
+            savedPath
+        );
+
+    }
+
+    return savedPath;
 }
 
-return savedPath;
-}
 
 function getListingUrl(listing) {
 
     if (!listing?.id) {
-
         return "/anasayfa";
-
     }
 
     const slug =
@@ -957,87 +960,109 @@ function getListingUrl(listing) {
             listing.id
         )}/${slug}`
     );
-
 }
 
-// =====================================================
+
+// ==========================================================
 // DİNAMİK SUNUCU ROTASINDAN SUNUCUYU BUL
-// =====================================================
+// ==========================================================
 
 function findServerFromRoute(routePath) {
+
     if (!routePath) {
         return null;
     }
 
-    const parts = routePath
-        .split("/")
-        .filter(Boolean)
-        .map(part => decodeURIComponent(part));
+    let pathname =
+        String(routePath);
 
-    if (parts[0] !== "sunucular" || parts.length !== 2) {
+    try {
+
+        pathname =
+            new URL(
+                pathname,
+                window.location.origin
+            ).pathname;
+
+    } catch (error) {
+
+        pathname =
+            pathname
+                .split("?")[0]
+                .split("#")[0];
+
+    }
+
+    const parts =
+        pathname
+            .split("/")
+            .filter(Boolean)
+            .map(
+                part =>
+                    decodeURIComponent(part)
+            );
+
+    /*
+     * SADECE BU YAPI GEÇERLİ:
+     *
+     * /sunucular/{server.slug}
+     *
+     * Örnek:
+     * /sunucular/royale2-ephesus
+     * /sunucular/misali2-feda
+     */
+
+    if (
+        parts.length !== 2 ||
+        parts[0].toLowerCase() !==
+            "sunucular"
+    ) {
         return null;
     }
 
-    const requestedSlug = String(parts[1] || "")
-        .trim()
-        .toLowerCase();
+    const requestedSlug =
+        String(parts[1] || "")
+            .trim()
+            .toLowerCase();
 
     if (!requestedSlug) {
         return null;
     }
 
-    const projects =
-        window.M2_STATE.gameProjects || [];
+    const server =
+        (
+            window.M2_STATE
+                .gameServers || []
+        ).find(
+            item =>
+                String(
+                    item.slug || ""
+                )
+                    .trim()
+                    .toLowerCase() ===
+                requestedSlug
+        ) || null;
 
-    const servers =
-        window.M2_STATE.gameServers || [];
+    if (!server) {
+        return null;
+    }
 
-    for (const server of servers) {
-        const serverSlug = String(server.slug || "")
-            .trim()
-            .toLowerCase();
+    const project =
+        (
+            window.M2_STATE
+                .gameProjects || []
+        ).find(
+            item =>
+                Number(item.id) ===
+                Number(
+                    server.game_project_id
+                )
+        ) || null;
 
-        const project =
-            projects.find(
-                item =>
-                    Number(item.id) ===
-                    Number(server.game_project_id)
-            ) || null;
-
-        const projectSlug = String(project?.slug || "")
-            .trim()
-            .toLowerCase();
-
-        /*
-         * Desteklenen adresler:
-         *
-         * /sunucular/hardmt2-efes
-         * /sunucular/misali2-feda
-         * /sunucular/tarantin2
-         *
-         * Aynı proje altında birden fazla sunucu varsa:
-         *
-         * /sunucular/royale2ephesus
-         * /sunucular/royale2teos
-         * /sunucular/royale2pergamon
-         * /sunucular/royale2akademi-teos
-         */
-
-const expectedRoute =
-    projectSlug
-        ? `${projectSlug}/${serverSlug}`
-        : serverSlug;
-
-if (requestedSlug === expectedRoute) {
     return {
         project,
         server
     };
-}
-
-}
-
-return null;
 }
 
 // ==========================================================
@@ -1055,13 +1080,11 @@ function renderHomeGameProjects() {
         return;
     }
 
-
     const projects =
         window.M2_STATE.gameProjects;
 
     const servers =
         window.M2_STATE.gameServers;
-
 
     if (!projects.length) {
 
@@ -1080,7 +1103,6 @@ function renderHomeGameProjects() {
         return;
     }
 
-
     container.innerHTML =
         projects
             .map(project => {
@@ -1096,12 +1118,10 @@ function renderHomeGameProjects() {
                             )
                     );
 
-
                 const safeName =
                     escapeHtml(
                         project.name
                     );
-
 
                 const safeDescription =
                     escapeHtml(
@@ -1109,12 +1129,10 @@ function renderHomeGameProjects() {
                         "Mobil Metin2 sunucusu"
                     );
 
-
                 const projectUrl =
                     getGameUrl(
                         project
                     );
-
 
                 const serverHtml =
                     projectServers.length
@@ -1149,7 +1167,6 @@ function renderHomeGameProjects() {
                             </span>
                         `;
 
-
                 const logoHtml =
                     project.logo_url
                         ? `
@@ -1174,7 +1191,6 @@ function renderHomeGameProjects() {
                                 )}
                             </span>
                         `;
-
 
                 return `
                     <article
@@ -1230,11 +1246,8 @@ function renderHomeGameProjects() {
 
                         </a>
 
-
                         <div class="project-servers">
-
                             ${serverHtml}
-
                         </div>
 
                     </article>
@@ -1245,6 +1258,7 @@ function renderHomeGameProjects() {
 
 }
 
+
 // ========================================================
 // SUNUCULAR SAYFASI - BAĞIMSIZ PAZARLAR
 // ========================================================
@@ -1252,7 +1266,9 @@ function renderHomeGameProjects() {
 function renderServersPage() {
 
     const container =
-        document.getElementById("servers-page-container");
+        document.getElementById(
+            "servers-page-container"
+        );
 
     if (!container) {
         return;
@@ -1261,13 +1277,17 @@ function renderServersPage() {
     const servers =
         window.M2_STATE.gameServers || [];
 
-const activeServers =
-    [...servers]
-        .sort(
-            (a, b) =>
-                Number(a.sort_order || 999) -
-                Number(b.sort_order || 999)
-        );
+    const activeServers =
+        [...servers]
+            .sort(
+                (a, b) =>
+                    Number(
+                        a.sort_order || 999
+                    ) -
+                    Number(
+                        b.sort_order || 999
+                    )
+            );
 
     if (!activeServers.length) {
 
@@ -1292,27 +1312,41 @@ const activeServers =
 
                 const safeName =
                     escapeHtml(
-                        server.name || "Mobil Metin2"
+                        server.name ||
+                        "Mobil Metin2"
                     );
 
-                const safeSlug =
-                    encodeURIComponent(
-                        server.slug || ""
+                const game =
+                    window.M2_STATE
+                        .gameProjects
+                        .find(
+                            project =>
+                                Number(
+                                    project.id
+                                ) ===
+                                Number(
+                                    server.game_project_id
+                                )
+                        );
+
+                /*
+                 * TÜM SUNUCULAR AYNI URL
+                 * SİSTEMİNİ KULLANIR.
+                 *
+                 * Royale2 dahil hiçbir sunucu
+                 * için özel URL kodu yoktur.
+                 */
+                const serverUrl =
+                    getServerUrl(
+                        game,
+                        server
                     );
-
-const game =
-    window.M2_STATE.gameProjects.find(
-        project =>
-            Number(project.id) ===
-            Number(server.game_project_id)
-    );
-
-const serverUrl =
-    getServerUrl(game, server);
 
                 const logoLetter =
                     escapeHtml(
-                        String(server.name || "M")
+                        String(
+                            server.name || "M"
+                        )
                             .trim()
                             .charAt(0)
                             .toUpperCase()
@@ -1321,7 +1355,9 @@ const serverUrl =
                 return `
                     <article
                         class="project-card server-market-card"
-                        data-server-id="${Number(server.id)}"
+                        data-server-id="${Number(
+                            server.id
+                        )}"
                     >
 
                         <a
@@ -1376,20 +1412,29 @@ const serverUrl =
 
             })
             .join("");
+
 }
+
 
 // ======================================================
 // TEKİL SUNUCU PAZAR SAYFASI
 // ======================================================
 
 function renderSingleServerPage() {
+
     const container =
-        document.getElementById("servers-page-container");
+        document.getElementById(
+            "servers-page-container"
+        );
 
     if (!container) {
         return;
     }
 
+    /*
+     * Burada requestedServer artık
+     * doğrudan game_servers kaydıdır.
+     */
     const server =
         window.M2_STATE.requestedServer;
 
@@ -1398,15 +1443,20 @@ function renderSingleServerPage() {
     }
 
     const game =
+        window.M2_STATE.requestedProject ||
         window.M2_STATE.gameProjects.find(
             project =>
                 Number(project.id) ===
-                Number(server.game_project_id)
-        );
+                Number(
+                    server.game_project_id
+                )
+        ) ||
+        null;
 
     const safeServerName =
         escapeHtml(
-            server.name || "Mobil Metin2"
+            server.name ||
+            "Mobil Metin2"
         );
 
     const safeGameName =
@@ -1416,7 +1466,9 @@ function renderSingleServerPage() {
 
     const logoLetter =
         escapeHtml(
-            String(server.name || "M")
+            String(
+                server.name || "M"
+            )
                 .trim()
                 .charAt(0)
                 .toUpperCase()
@@ -1428,9 +1480,11 @@ function renderSingleServerPage() {
             <div class="single-server-header">
 
                 <div class="project-logo">
+
                     <span class="project-logo-letter">
                         ${logoLetter}
                     </span>
+
                 </div>
 
                 <div class="single-server-title">
@@ -1441,7 +1495,7 @@ function renderSingleServerPage() {
                                 <span class="single-server-project">
                                     ${safeGameName}
                                 </span>
-                              `
+                            `
                             : ""
                     }
 
@@ -1519,6 +1573,7 @@ function renderSingleServerPage() {
 
         </section>
     `;
+
 }
 
 // ==========================================================
@@ -1550,34 +1605,97 @@ async function initializeM2MobilMarket() {
         window.M2_STATE.initialized =
             true;
 
-const requestedServerRoute =
-    getRequestedServerRoute();
 
-if (requestedServerRoute) {
+        // ==================================================
+        // DİNAMİK SUNUCU ROTASINI ÇÖZ
+        // ==================================================
 
-    const requestedServer =
-        findServerFromRoute(
-            requestedServerRoute
-        );
+        const requestedServerRoute =
+            getRequestedServerRoute();
 
-    window.M2_STATE.requestedServer =
-        requestedServer;
+        if (requestedServerRoute) {
 
-    window.M2_STATE.requestedServerRoute =
-        requestedServerRoute;
-}
-        
-renderHomeGameProjects();
+            const requestedServerResult =
+                findServerFromRoute(
+                    requestedServerRoute
+                );
 
-if (requestedServerRoute && window.M2_STATE.requestedServer) {
-    renderSingleServerPage();
-} else {
-    renderServersPage();
-}
-        
+            /*
+             * findServerFromRoute()
+             * şu yapıyı döndürür:
+             *
+             * {
+             *     project,
+             *     server
+             * }
+             *
+             * Tekil sunucu sayfasının ihtiyacı olan
+             * doğrudan server nesnesidir.
+             */
+
+            window.M2_STATE.requestedServer =
+                requestedServerResult?.server ||
+                null;
+
+            window.M2_STATE.requestedProject =
+                requestedServerResult?.project ||
+                null;
+
+            window.M2_STATE.requestedServerRoute =
+                requestedServerRoute;
+
+        } else {
+
+            window.M2_STATE.requestedServer =
+                null;
+
+            window.M2_STATE.requestedProject =
+                null;
+
+            window.M2_STATE.requestedServerRoute =
+                null;
+
+        }
+
+
+        // ==================================================
+        // SAYFALARI OLUŞTUR
+        // ==================================================
+
+        renderHomeGameProjects();
+
+
+        /*
+         * Dinamik bir sunucu adresi bulunduysa:
+         *
+         * /sunucular/royale2-ephesus
+         * /sunucular/royale2-teos
+         * /sunucular/misali2-feda
+         *
+         * tekil sunucu pazarı gösterilir.
+         *
+         * Normal /sunucular/ sayfasında ise
+         * bütün sunucu kartları gösterilir.
+         */
+
+        if (
+            requestedServerRoute &&
+            window.M2_STATE.requestedServer
+        ) {
+
+            renderSingleServerPage();
+
+        } else {
+
+            renderServersPage();
+
+        }
+
+
         console.log(
             "M2 Mobil Market hazır.",
             {
+
                 oyunSayisi:
                     gameProjects.length,
 
@@ -1591,19 +1709,41 @@ if (requestedServerRoute && window.M2_STATE.requestedServer) {
                     Boolean(
                         window.M2_STATE
                             .currentUser
-                    )
+                    ),
+
+                aktifSunucu:
+                    window.M2_STATE
+                        .requestedServer
+                        ?.slug ||
+                    null
+
             }
         );
+
 
         document.dispatchEvent(
             new CustomEvent(
                 "m2:ready",
                 {
+
                     detail: {
+
                         gameProjects,
+
                         gameServers,
-                        marketCategories
+
+                        marketCategories,
+
+                        requestedServer:
+                            window.M2_STATE
+                                .requestedServer,
+
+                        requestedProject:
+                            window.M2_STATE
+                                .requestedProject
+
                     }
+
                 }
             )
         );
@@ -1619,9 +1759,11 @@ if (requestedServerRoute && window.M2_STATE.requestedServer) {
             new CustomEvent(
                 "m2:error",
                 {
+
                     detail: {
                         error
                     }
+
                 }
             )
         );
