@@ -868,13 +868,20 @@ function getServerUrl(
         /sunucular/royale2/ephesus
         /sunucular/royale2/teos
     */
-    if (game?.slug === "royale2") {
-        return (
-            `/sunucular/royale2/${encodeURIComponent(
-                server.slug
-            )}`
-        );
-    }
+if (game?.slug === "royale2") {
+    const royale2SlugMap = {
+        "royale2-ephesus": "royale2ephesus",
+        "royale2-teos": "royale2teos",
+        "royale2-pergamon": "royale2pergamon",
+        "royale2-akademi-teos": "royale2-akademi-teos"
+    };
+
+    const finalSlug =
+        royale2SlugMap[server.slug] ||
+        server.slug;
+
+    return `/sunucular/${encodeURIComponent(finalSlug)}`;
+}
 
     /*
         Diğer Mobil Metin2 sunucuları:
