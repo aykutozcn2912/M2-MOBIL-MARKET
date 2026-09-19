@@ -859,28 +859,41 @@ function getServerUrl(game, server) {
         return "/sunucular";
     }
 
-    const serverSlug = encodeURIComponent(server.slug);
+    const rawServerSlug = String(server.slug)
+        .trim()
+        .toLowerCase();
 
-    // Bir projeye bağlı birden fazla sunucu varsa:
-    // /sunucular/royale2/ephesus
-    if (game?.slug) {
-        const projectServers =
-            (window.M2_STATE.gameServers || []).filter(
-                item =>
-                    Number(item.game_project_id) ===
-                    Number(game.id)
-            );
-
-        if (projectServers.length > 1) {
-            return `/sunucular/${encodeURIComponent(
-                game.slug
-            )}/${serverSlug}`;
-        }
+    if (!game?.slug) {
+        return `/sunucular/${encodeURIComponent(rawServerSlug)}`;
     }
 
-    // Tek başına çalışan sunucular:
-    // /sunucular/hardmt2-efes
-    return `/sunucular/${serverSlug}`;
+    const projectSlug = String(game.slug)
+        .trim()
+        .toLowerCase();
+
+    const projectServers =
+        (window.M2_STATE.gameServers || []).filter(
+            item =>
+                Number(item.game_project_id) ===
+                Number(game.id)
+        );
+
+    // Aynı proje altında birden fazla sunucu varsa:
+    // royale2-ephesus -> /sunucular/royale2/ephesus
+    if (projectServers.length > 1) {
+        const prefix = `${projectSlug}-`;
+
+        const cleanServerSlug =
+            rawServerSlug.startsWith(prefix)
+                ? rawServerSlug.slice(prefix.length)
+                : rawServerSlug;
+
+        return `/sunucular/${encodeURIComponent(projectSlug)}/${encodeURIComponent(cleanServerSlug)}`;
+    }
+
+    // Tek sunuculu projelerde:
+    // misali2-feda -> /sunucular/misali2-feda
+    return `/sunucular/${encodeURIComponent(rawServerSlug)}`;
 }
 
 // =====================================================
@@ -1010,36 +1023,21 @@ function findServerFromRoute(routePath) {
          * /sunucular/royale2akademi-teos
          */
 
-const directRoute = serverSlug;
-
-const projectPrefix =
+const expectedRoute =
     projectSlug
-        ? `${projectSlug}-`
-        : "";
-
-const cleanServerSlug =
-    projectPrefix &&
-    serverSlug.startsWith(projectPrefix)
-        ? serverSlug.slice(projectPrefix.length)
+        ? `${projectSlug}/${serverSlug}`
         : serverSlug;
 
-const projectServerRoute =
-    projectSlug
-        ? `${projectSlug}${cleanServerSlug}`
-        : cleanServerSlug;
+if (requestedSlug === expectedRoute) {
+    return {
+        project,
+        server
+    };
+}
 
-        if (
-            requestedSlug === directRoute ||
-            requestedSlug === projectServerRoute
-        ) {
-            return {
-                project,
-                server
-            };
-        }
-    }
+}
 
-    return null;
+return null;
 }
 
 // ==========================================================
