@@ -1010,11 +1010,23 @@ function findServerFromRoute(routePath) {
          * /sunucular/royale2akademi-teos
          */
 
-        const directRoute =
-            serverSlug;
+const directRoute = serverSlug;
 
-        const projectServerRoute =
-            `${projectSlug}${serverSlug}`;
+const projectPrefix =
+    projectSlug
+        ? `${projectSlug}-`
+        : "";
+
+const cleanServerSlug =
+    projectPrefix &&
+    serverSlug.startsWith(projectPrefix)
+        ? serverSlug.slice(projectPrefix.length)
+        : serverSlug;
+
+const projectServerRoute =
+    projectSlug
+        ? `${projectSlug}${cleanServerSlug}`
+        : cleanServerSlug;
 
         if (
             requestedSlug === directRoute ||
