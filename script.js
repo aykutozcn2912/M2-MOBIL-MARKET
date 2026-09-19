@@ -1403,6 +1403,128 @@ const serverUrl =
             .join("");
 }
 
+// ======================================================
+// TEKİL SUNUCU PAZAR SAYFASI
+// ======================================================
+
+function renderSingleServerPage() {
+
+    const container =
+        document.getElementById("servers-page-container");
+
+    if (!container) {
+        return;
+    }
+
+    const server =
+        window.M2_STATE.requestedServer;
+
+    if (!server) {
+        return;
+    }
+
+    const game =
+        window.M2_STATE.gameProjects.find(
+            project =>
+                Number(project.id) ===
+                Number(server.game_project_id)
+        );
+
+    const safeServerName =
+        escapeHtml(
+            server.name || "Mobil Metin2"
+        );
+
+    const safeGameName =
+        escapeHtml(
+            game?.name || ""
+        );
+
+    const logoLetter =
+        escapeHtml(
+            String(server.name || "M")
+                .trim()
+                .charAt(0)
+                .toUpperCase()
+        );
+
+    container.innerHTML = `
+        <section class="single-server-market">
+
+            <div class="single-server-header">
+
+                <div class="project-logo">
+                    <span class="project-logo-letter">
+                        ${logoLetter}
+                    </span>
+                </div>
+
+                <div class="single-server-title">
+
+                    <span class="single-server-project">
+                        ${safeGameName}
+                    </span>
+
+                    <h1>
+                        ${safeServerName}
+                    </h1>
+
+                    <p>
+                        ${safeServerName} sunucusundaki
+                        aktif ilanları keşfet.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="single-server-categories">
+
+                <button
+                    type="button"
+                    class="single-server-category"
+                    data-category="item"
+                >
+                    İtem İlanları
+                </button>
+
+                <button
+                    type="button"
+                    class="single-server-category"
+                    data-category="yang"
+                >
+                    Yang İlanları
+                </button>
+
+                <button
+                    type="button"
+                    class="single-server-category"
+                    data-category="karakter"
+                >
+                    Karakter İlanları
+                </button>
+
+            </div>
+
+            <div class="single-server-listings">
+
+                <div class="single-server-empty">
+                    <h3>
+                        ${safeServerName} Pazarı
+                    </h3>
+
+                    <p>
+                        Bu sunucuya ait ilanlar burada
+                        görüntülenecek.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+    `;
+}
+
 // ==========================================================
 // UYGULAMA BAŞLATMA
 // ==========================================================
@@ -1452,7 +1574,7 @@ if (requestedServerRoute) {
 renderHomeGameProjects();
 
 if (requestedServerRoute && window.M2_STATE.requestedServer) {
-    // Tekil sunucu sayfası birazdan burada çalışacak.
+    renderSingleServerPage();
 } else {
     renderServersPage();
 }
