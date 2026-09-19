@@ -854,47 +854,33 @@ function getGameUrl(game) {
 
 }
 
-function getServerUrl(
-    game,
-    server
-) {
-
+function getServerUrl(game, server) {
     if (!server?.slug) {
         return "/sunucular";
     }
 
-    /*
-        Royale2 sunucuları:
-        /sunucular/royale2/ephesus
-        /sunucular/royale2/teos
-    */
-if (game?.slug === "royale2") {
-    const royale2SlugMap = {
-        "royale2-ephesus": "royale2ephesus",
-        "royale2-teos": "royale2teos",
-        "royale2-pergamon": "royale2pergamon",
-        "royale2-akademi-teos": "royale2-akademi-teos"
-    };
+    const serverSlug = encodeURIComponent(server.slug);
 
-    const finalSlug =
-        royale2SlugMap[server.slug] ||
-        server.slug;
+    // Bir projeye bağlı birden fazla sunucu varsa:
+    // /sunucular/royale2/ephesus
+    if (game?.slug) {
+        const projectServers =
+            (window.M2_STATE.gameServers || []).filter(
+                item =>
+                    Number(item.game_project_id) ===
+                    Number(game.id)
+            );
 
-    return `/sunucular/${encodeURIComponent(finalSlug)}`;
-}
+        if (projectServers.length > 1) {
+            return `/sunucular/${encodeURIComponent(
+                game.slug
+            )}/${serverSlug}`;
+        }
+    }
 
-    /*
-        Diğer Mobil Metin2 sunucuları:
-        /sunucular/harbi2
-        /sunucular/lova2
-        /sunucular/triarch-online
-    */
-    return (
-        `/sunucular/${encodeURIComponent(
-            server.slug
-        )}`
-    );
-
+    // Tek başına çalışan sunucular:
+    // /sunucular/hardmt2-efes
+    return `/sunucular/${serverSlug}`;
 }
 
 // =====================================================
@@ -966,7 +952,6 @@ function getListingUrl(listing) {
 // =====================================================
 
 function findServerFromRoute(routePath) {
-
     if (!routePath) {
         return null;
     }
@@ -976,7 +961,15 @@ function findServerFromRoute(routePath) {
         .filter(Boolean)
         .map(part => decodeURIComponent(part));
 
-    if (parts[0] !== "sunucular") {
+    if (parts[0] !== "sunucular" || parts.length !== 2) {
+        return null;
+    }
+
+    const requestedSlug = String(parts[1] || "")
+        .trim()
+        .toLowerCase();
+
+    if (!requestedSlug) {
         return null;
     }
 
@@ -986,68 +979,10 @@ function findServerFromRoute(routePath) {
     const servers =
         window.M2_STATE.gameServers || [];
 
-    /*
-        Royale2 özel yapısı:
-
-        /sunucular/royale2/ephesus
-        /sunucular/royale2/teos
-        /sunucular/royale2/pergamon
-        /sunucular/royale2/akademi-teos
-    */
-
-    if (
-        parts.length === 3 &&
-        parts[1] === "royale2"
-    ) {
-
-        const royale2 =
-            projects.find(
-                project =>
-                    project.slug === "royale2"
-            );
-
-        if (!royale2) {
-            return null;
-        }
-
-        const server =
-            servers.find(
-                item =>
-                    Number(item.game_project_id) ===
-                        Number(royale2.id) &&
-                    item.slug === parts[2]
-            );
-
-        if (!server) {
-            return null;
-        }
-
-        return {
-            project: royale2,
-            server
-        };
-    }
-
-    /*
-        Diğer tüm sunucular:
-
-        /sunucular/harbi2
-        /sunucular/lova2
-        /sunucular/triarch-online
-        vb.
-    */
-
-    if (parts.length === 2) {
-
-        const server =
-            servers.find(
-                item =>
-                    item.slug === parts[1]
-            );
-
-        if (!server) {
-            return null;
-        }
+    for (const server of servers) {
+        const serverSlug = String(server.slug || "")
+            .trim()
+            .toLowerCase();
 
         const project =
             projects.find(
@@ -1056,10 +991,40 @@ function findServerFromRoute(routePath) {
                     Number(server.game_project_id)
             ) || null;
 
-        return {
-            project,
-            server
-        };
+        const projectSlug = String(project?.slug || "")
+            .trim()
+            .toLowerCase();
+
+        /*
+         * Desteklenen adresler:
+         *
+         * /sunucular/hardmt2-efes
+         * /sunucular/misali2-feda
+         * /sunucular/tarantin2
+         *
+         * Aynı proje altında birden fazla sunucu varsa:
+         *
+         * /sunucular/royale2ephesus
+         * /sunucular/royale2teos
+         * /sunucular/royale2pergamon
+         * /sunucular/royale2akademi-teos
+         */
+
+        const directRoute =
+            serverSlug;
+
+        const projectServerRoute =
+            `${projectSlug}${serverSlug}`;
+
+        if (
+            requestedSlug === directRoute ||
+            requestedSlug === projectServerRoute
+        ) {
+            return {
+                project,
+                server
+            };
+        }
     }
 
     return null;
