@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>M2 Mobil Market</title>
+
+    <script>
+        (function () {
+
+            const path = window.location.pathname
+                .replace(/\/+$/, "");
+
+            /*
+                Tekil sunucu adreslerini yakalar:
+
+                /sunucular/harbi2
+                /sunucular/lova2
+                /sunucular/triarch-online
+
+                Royale2:
+                /sunucular/royale2/ephesus
+                /sunucular/royale2/teos
+            */
+
+            if (path.startsWith("/sunucular/")) {
+
+                sessionStorage.setItem(
+                    "m2_requested_server_path",
+                    path
+                );
+
+                window.location.replace(
+                    "/sunucular/?server-route=1"
+                );
+
+                return;
+            }
+
+            /*
+                Sunucu adresi dışında gerçek bir
+                404 oluşursa ana sayfaya gönder.
+            */
+
+            window.location.replace("/anasayfa");
+
+        })();
+    </script>
+
+</head>
+
+<body>
+</body>
+</html>
